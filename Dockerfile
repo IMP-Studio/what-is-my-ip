@@ -15,7 +15,7 @@ ENV UID=10001
 RUN adduser --disabled-password --gecos "" --home "/nonexistent" --shell "/sbin/nologin" --no-create-home --uid "${UID}" "${USER}"
 WORKDIR /app
 COPY . .
-RUN RUSTFLAGS="-C target-cpu=native" cargo build --release --locked
+RUN cargo build --release --locked
 RUN strip -s target/release/what-is-my-ip
 
 # final outcome
