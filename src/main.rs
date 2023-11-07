@@ -1,3 +1,4 @@
+use actix_cors::Cors;
 use actix_web::{get, App, HttpRequest, HttpResponse, HttpServer, Responder};
 
 #[get("/")]
@@ -8,7 +9,7 @@ async fn index(req: HttpRequest) -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| App::new().service(index))
+    HttpServer::new(|| App::new().wrap(Cors::permissive()).service(index))
         .bind(("0.0.0.0", 8080))?
         .run()
         .await
