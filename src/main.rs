@@ -3,21 +3,21 @@ use actix_web::{web, App, HttpRequest, HttpResponse, HttpServer, Responder};
 
 async fn index(req: HttpRequest) -> impl Responder {
     let conn_info = req.connection_info();
+    let mut response: String = "".to_string();
     if let Some(realip_remote_addr) = &conn_info.realip_remote_addr() {
-        HttpResponse::Ok().body(realip_remote_addr.to_string())
-    } else {
-        HttpResponse::Ok().body("")
+        response = realip_remote_addr.to_string()
     }
-}
-
-fn services() -> actix_web::Scope {
-    web::scope("/").service(web::resource("").route(web::get().to(index)))
+    HttpResponse::Ok().body(response)
 }
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| App::new().wrap(Cors::permissive()).service(services()))
-        .bind(("0.0.0.0", 8080))?
-        .run()
-        .await
+    HttpServer::new(|| {
+        App::new()
+            .wrap(Cors::permissive())
+            .default_service(web::get().to(index))
+    })
+    .bind(("0.0.0.0", 8080))?
+    .run()
+    .await
 }
