@@ -20,12 +20,13 @@ struct IP {
 
 async fn all(req: HttpRequest) -> impl Responder {
     let conn_info = req.connection_info();
+    let mut response: String = "".to_string();
     let ip = IP {
         a: conn_info.host().to_string(),
         b: conn_info.realip_remote_addr().unwrap().to_string(),
-        c: conn_info.peer_addr().unwrap().to_string(),
+        c: conn_info.peer_addr().unwrap().to_strin()
     };
-    HttpResponse::Ok().json(&ip)
+    HttpResponse::Ok().json(serde_json::to_string(&ip).unwrap())
 }
 
 #[actix_web::main]
