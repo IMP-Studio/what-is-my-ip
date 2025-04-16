@@ -1,5 +1,5 @@
 # base
-FROM rust:1.73-bookworm AS base
+FROM rust:1.86-slim-bookworm AS base
 WORKDIR /app
 RUN update-ca-certificates
 RUN apt update -y
