@@ -14,3 +14,9 @@ cargo watch -x run
 ```bash
 docker build . -t what-is-my-ip
 ```
+
+## Run on Production
+
+```bash
+docker run ghcr.io/IMP-Studio/what-is-my-ip
+```
